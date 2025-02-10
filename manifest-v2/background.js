@@ -16,7 +16,17 @@ chrome.webRequest.onBeforeRequest.addListener(
   function (details) {
     const url = new URL(details.url);
 
-    if (url.hostname === "old.reddit.com") return;
+    if ((url.hostname === "old.reddit.com" && !url.searchParams.has("new")) || url.searchParams.has("forcenew")) return;
+
+    if (url.searchParams.has("new")) {
+      url.hostname = "www.reddit.com";
+      url.searchParams.delete("new");
+      url.searchParams.set("forcenew", "");
+      return {
+        redirectUrl:
+          url.toString()
+      };
+    }
 
     for (const path of excludedPaths) {
       if (path.test(url.pathname)) return;
@@ -35,6 +45,7 @@ chrome.webRequest.onBeforeRequest.addListener(
     urls: [
       "*://reddit.com/*",
       "*://www.reddit.com/*",
+      "*://old.reddit.com/*",
       "*://np.reddit.com/*",
       "*://amp.reddit.com/*",
       "*://i.reddit.com/*",

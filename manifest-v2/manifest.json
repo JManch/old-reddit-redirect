@@ -28,6 +28,7 @@
     "webRequestBlocking",
     "*://reddit.com/*",
     "*://www.reddit.com/*",
+    "*://old.reddit.com/*",
     "*://np.reddit.com/*",
     "*://amp.reddit.com/*",
     "*://i.reddit.com/*",
